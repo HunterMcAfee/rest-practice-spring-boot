@@ -1,5 +1,8 @@
-package com.bootcamp.restpractice;
+package com.bootcamp.restpractice.Controller;
 
+import com.bootcamp.restpractice.Model.Bookmark;
+import com.bootcamp.restpractice.Repository.AccountRepository;
+import com.bootcamp.restpractice.Repository.BookmarkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +24,7 @@ class BookmarkRestController {
     private final AccountRepository accountRepository;
 
     @Autowired
-    BookmarkRestController(BookmarkRepository bookmarkRepository,
-                           AccountRepository accountRepository) {
+    BookmarkRestController(BookmarkRepository bookmarkRepository, AccountRepository accountRepository) {
         this.bookmarkRepository = bookmarkRepository;
         this.accountRepository = accountRepository;
     }
@@ -30,8 +32,7 @@ class BookmarkRestController {
     @GetMapping
     Collection<Bookmark> readBookmarks(@PathVariable String userId) {
         this.validateUser(userId);
-
-        return this.bookmarkRepository.findByAccountUsername(userId);
+        return bookmarkRepository.findByAccountUsername(userId);
     }
 
     @PostMapping
@@ -41,29 +42,25 @@ class BookmarkRestController {
         return this.accountRepository
                 .findByUsername(userId)
                 .map(account -> {
-                    Bookmark result = bookmarkRepository.save(new Bookmark(account,
-                            input.getUri(), input.getDescription()));
-
+                    Bookmark result = bookmarkRepository.save(new Bookmark(account, input.getUri(), input.getDescription()));
                     URI location = ServletUriComponentsBuilder
                             .fromCurrentRequest().path("/{id}")
                             .buildAndExpand(result.getId()).toUri();
 
-                    return ResponseEntity.created(location).build();
+                        return ResponseEntity.created(location).build();
                 })
                 .orElse(ResponseEntity.noContent().build());
+    }
 
+    private void validateUser(String userId) {
+        accountRepository.findByUsername(userId).orElseThrow(
+                () -> new UserNotFoundException(userId));
     }
 
     @GetMapping("/{bookmarkId}")
     Bookmark readBookmark(@PathVariable String userId, @PathVariable Long bookmarkId) {
         this.validateUser(userId);
-
         return this.bookmarkRepository.findById(bookmarkId)
-                .orElseThrow(() -> new BookmarkNotFoundException(bookmarkId));
-    }
-
-    private void validateUser(String userId) {
-        this.accountRepository.findByUsername(userId).orElseThrow(
-                () -> new UserNotFoundException(userId));
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 }

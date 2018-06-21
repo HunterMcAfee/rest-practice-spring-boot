@@ -1,5 +1,9 @@
 package com.bootcamp.restpractice;
 
+import com.bootcamp.restpractice.Model.Account;
+import com.bootcamp.restpractice.Model.Bookmark;
+import com.bootcamp.restpractice.Repository.AccountRepository;
+import com.bootcamp.restpractice.Repository.BookmarkRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

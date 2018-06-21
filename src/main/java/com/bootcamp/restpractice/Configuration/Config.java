@@ -1,4 +1,4 @@
-package com.bootcamp.restpractice;
+package com.bootcamp.restpractice.Configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

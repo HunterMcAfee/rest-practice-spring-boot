@@ -1,5 +1,6 @@
-package com.bootcamp.restpractice;
+package com.bootcamp.restpractice.Repository;
 
+import com.bootcamp.restpractice.Model.Bookmark;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package com.bootcamp.restpractice;
+package com.bootcamp.restpractice.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
